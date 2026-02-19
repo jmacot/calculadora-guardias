@@ -909,8 +909,10 @@ function calcular() {
   const gpf17   = parseFloat(document.getElementById('gpf17').value)   || 0;
   const gpf24   = parseFloat(document.getElementById('gpf24').value)   || 0;
   const irpfGPF = parseFloat(document.getElementById('irpfGPF').value) || 0;
-  const gpf17Base      = gpf17 * 21.31 * 17;
-  const gpf24Base      = gpf24 * 20.01 * 24;
+  const rateGpf17h     = parseFloat(document.getElementById('rateGpf17h').value) || 21.31;
+  const rateGpf24h     = parseFloat(document.getElementById('rateGpf24h').value) || 20.01;
+  const gpf17Base      = gpf17 * rateGpf17h * 17;
+  const gpf24Base      = gpf24 * rateGpf24h * 24;
   const gpfBrutoTotal  = gpf17Base + gpf24Base;
   const gpfNetoTotal   = gpfBrutoTotal * ((100 - irpfGPF) / 100);
   const gpfIRPFTotal   = gpfBrutoTotal - gpfNetoTotal;
