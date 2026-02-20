@@ -2,6 +2,10 @@
 
 Herramienta web para calcular la retribución económica de las guardias médicas. Permite registrar guardias de presencia física y localizadas, visualizarlas en un calendario mensual y obtener automáticamente el importe bruto, IRPF y neto.
 
+## 🌐 Acceso directo
+
+👉 **[Abrir la aplicación en el navegador](https://jmacot.github.io/calculadora-guardias/)**
+
 ---
 
 ## ✨ Funcionalidades
@@ -26,7 +30,6 @@ Herramienta web para calcular la retribución económica de las guardias médica
 ---
 
 ## 📁 Estructura
-
 ```
 calculadora-guardias/
 ├── index.html        # Aplicación completa (HTML + CSS + JS)
