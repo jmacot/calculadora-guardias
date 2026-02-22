@@ -149,17 +149,21 @@
   .cal-reset-link {
     display: block;
     text-align: center;
-    margin-top: 0.5rem;
-    font-size: 0.7rem;
+    margin-top: 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 600;
     color: var(--muted);
-    opacity: 0.5;
     cursor: pointer;
-    background: none;
-    border: none;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 18px;
     font-family: 'Inter', sans-serif;
-    transition: opacity 0.15s;
+    transition: all 0.15s;
+    letter-spacing: 0.02em;
   }
-  .cal-reset-link:hover { opacity: 1; }
+  .cal-reset-link:hover { color: #dc2626; border-color: #dc2626; background: #fee2e2; }
+  [data-theme="dark"] .cal-reset-link:hover { background: #3b1010; }
 
   /* Animated value transition */
   .value-animate {
@@ -204,8 +208,6 @@
   }
   .tag.green { background: #dcfce7; color: var(--accent); }
   .tag.amber { background: #fef3c7; color: var(--warn); }
-  .card-subtitle { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.2rem; margin-top: 0.1rem; }
-
   /* LAYOUT CARD: calendario + inputs lado a lado */
   .card-body {
     display: grid;
@@ -215,6 +217,12 @@
   }
   @media(max-width: 768px) {
     .card-body { grid-template-columns: 1fr; }
+  }
+  @media(min-width: 769px) {
+    .cal-day-inner { font-size: 1.05rem; }
+    .cal-day.sel-17 .cal-day-inner::after,
+    .cal-day.sel-24 .cal-day-inner::after { font-size: 0.62rem; }
+    .cal-dow { font-size: 0.85rem; }
   }
 
   /* Grafico de barras */
@@ -467,6 +475,9 @@
     line-height: 1;
     margin-top: 1px;
   }
+  /* Override labels para módulos con slotLabels (L-V / S-D) */
+  .card[data-slot17] .cal-day.sel-17 .cal-day-inner::after { content: attr(data-sel-label); }
+  .card[data-slot17] .cal-day.sel-24 .cal-day-inner::after { content: attr(data-sel-label); }
 
   .cal-legend {
     display: flex;
@@ -686,44 +697,45 @@ const CONFIGS = {
   hsjd: {
     label: 'HSJD',
     modules: [
-      { id: 'gpf', name: 'Guardias de Presencia Fisica', type: 'presencial', tag: 'Presenciales', tagColor: '', logo: 'hsjd', rates: { r17: 21.31, r24: 20.01 }, labels: { c17: 'Guardias de 17 horas', c24: 'Guardias de 24 horas' }, subtitle: 'Calculadas como guardias x tarifa/hora x horas de guardia' },
-      { id: 'hsjd', name: 'HSJD Localizadas', type: 'compuesta', tag: 'Localizados', tagColor: 'amber', logo: 'hsjd', rates: { m17: 8.5, e17: 21.31, m24: 12, e24: 20.01 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' }, subtitle: 'Guardias de localizacion con tarifa compuesta' }
+      { id: 'gpf', name: 'Guardias de Presencia Fisica', type: 'presencial', tag: 'Presenciales', tagColor: '', logo: 'hsjd', rates: { r17: 21.31, r24: 20.01 }, labels: { c17: 'Guardias de 17 horas', c24: 'Guardias de 24 horas' } },
+      { id: 'hsjd', name: 'HSJD Localizadas', type: 'compuesta', tag: 'Localizados', tagColor: 'amber', logo: 'hsjd', rates: { m17: 8.5, e17: 21.31, m24: 12, e24: 20.01 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' } }
     ]
   },
   hsjd_vithas: {
     label: 'HSJD + VITHAS',
     modules: [
-      { id: 'gpf', name: 'Guardias de Presencia Fisica', type: 'presencial', tag: 'Presenciales', tagColor: '', logo: 'hsjd', rates: { r17: 21.31, r24: 20.01 }, labels: { c17: 'Guardias de 17 horas', c24: 'Guardias de 24 horas' }, subtitle: 'Calculadas como guardias x tarifa/hora x horas de guardia' },
-      { id: 'hsjd', name: 'HSJD Localizadas', type: 'compuesta', tag: 'Localizados', tagColor: 'amber', logo: 'hsjd', rates: { m17: 8.5, e17: 21.31, m24: 12, e24: 20.01 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' }, subtitle: 'Guardias de localizacion con tarifa compuesta' },
-      { id: 'loc', name: 'Vithas Localizadas', type: 'plana', tag: 'Localizados', tagColor: 'green', logo: 'vithas', rates: { r17: 250, r24: 300 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' }, subtitle: 'Guardias localizadas con tarifa plana por dia' }
+      { id: 'gpf', name: 'Guardias de Presencia Fisica', type: 'presencial', tag: 'Presenciales', tagColor: '', logo: 'hsjd', rates: { r17: 21.31, r24: 20.01 }, labels: { c17: 'Guardias de 17 horas', c24: 'Guardias de 24 horas' } },
+      { id: 'hsjd', name: 'HSJD Localizadas', type: 'compuesta', tag: 'Localizados', tagColor: 'amber', logo: 'hsjd', rates: { m17: 8.5, e17: 21.31, m24: 12, e24: 20.01 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' } },
+      { id: 'loc', name: 'Vithas Localizadas', type: 'plana', tag: 'Localizados', tagColor: 'green', logo: 'vithas', rates: { r17: 250, r24: 300 }, labels: { c17: 'Localizadas L-V', c24: 'Localizadas S-D y festivos' }, slotLabels: { s17: 'L-V', s24: 'S-D' } }
     ]
   },
   vithas: {
     label: 'VITHAS',
     modules: [
-      { id: 'loc', name: 'Vithas Localizadas', type: 'plana', tag: 'Localizados', tagColor: 'green', logo: 'vithas', rates: { r17: 250, r24: 300 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' }, subtitle: 'Guardias localizadas con tarifa plana por dia' }
+      { id: 'loc', name: 'Vithas Localizadas', type: 'plana', tag: 'Localizados', tagColor: 'green', logo: 'vithas', rates: { r17: 250, r24: 300 }, labels: { c17: 'Localizadas L-V', c24: 'Localizadas S-D y festivos' }, slotLabels: { s17: 'L-V', s24: 'S-D' } }
     ]
   },
   sas: {
     label: 'SAS',
     modules: [
-      { id: 'sas_pf', name: 'Guardias Presencia Fisica', type: 'presencial', tag: 'Presenciales', tagColor: '', logo: null, rates: { r17: 0, r24: 0 }, labels: { c17: 'Guardias de 17 horas', c24: 'Guardias de 24 horas' }, subtitle: 'Calculadas como guardias x tarifa/hora x horas de guardia' },
-      { id: 'sas_loc', name: 'SAS Localizadas', type: 'compuesta', tag: 'Localizados', tagColor: 'amber', logo: null, rates: { m17: 0, e17: 0, m24: 0, e24: 0 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' }, subtitle: 'Guardias de localizacion con tarifa compuesta' }
+      { id: 'sas_pf', name: 'Guardias Presencia Fisica', type: 'presencial', tag: 'Presenciales', tagColor: '', logo: 'sas', rates: { r17: 0, r24: 0 }, labels: { c17: 'Guardias de 17 horas', c24: 'Guardias de 24 horas' } },
+      { id: 'sas_loc', name: 'SAS Localizadas', type: 'compuesta', tag: 'Localizados', tagColor: 'amber', logo: 'sas', rates: { m17: 0, e17: 0, m24: 0, e24: 0 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' } }
     ]
   },
   sas_privada: {
     label: 'SAS + PRIVADA',
     modules: [
-      { id: 'sas_pf', name: 'Guardias Presencia Fisica', type: 'presencial', tag: 'Presenciales', tagColor: '', logo: null, rates: { r17: 0, r24: 0 }, labels: { c17: 'Guardias de 17 horas', c24: 'Guardias de 24 horas' }, subtitle: 'Calculadas como guardias x tarifa/hora x horas de guardia' },
-      { id: 'sas_loc', name: 'SAS Localizadas', type: 'compuesta', tag: 'Localizados', tagColor: 'amber', logo: null, rates: { m17: 0, e17: 0, m24: 0, e24: 0 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' }, subtitle: 'Guardias de localizacion con tarifa compuesta' },
-      { id: 'priv', name: 'Privada Localizadas', type: 'plana', tag: 'Localizados', tagColor: 'green', logo: null, rates: { r17: 0, r24: 0 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' }, subtitle: 'Guardias localizadas con tarifa plana por dia' }
+      { id: 'sas_pf', name: 'Guardias Presencia Fisica', type: 'presencial', tag: 'Presenciales', tagColor: '', logo: 'sas', rates: { r17: 0, r24: 0 }, labels: { c17: 'Guardias de 17 horas', c24: 'Guardias de 24 horas' } },
+      { id: 'sas_loc', name: 'SAS Localizadas', type: 'compuesta', tag: 'Localizados', tagColor: 'amber', logo: 'sas', rates: { m17: 0, e17: 0, m24: 0, e24: 0 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' } },
+      { id: 'priv', name: 'Privada Localizadas', type: 'plana', tag: 'Localizados', tagColor: 'green', logo: null, rates: { r17: 0, r24: 0 }, labels: { c17: 'Localizadas L-V', c24: 'Localizadas S-D y festivos' }, slotLabels: { s17: 'L-V', s24: 'S-D' } }
     ]
   }
 };
 
 const LOGOS = {
   hsjd: { dia: 'imagenes/hsjd-dia.jpg', noche: 'imagenes/hsjd-noche.png' },
-  vithas: { dia: 'imagenes/vithas-dia.jpg', noche: 'imagenes/vithas-noche.png' }
+  vithas: { dia: 'imagenes/vithas-dia.jpg', noche: 'imagenes/vithas-noche.png' },
+  sas: { dia: 'imagenes/sas-dia.png', noche: 'imagenes/sas-noche.png' }
 };
 
 let currentConfig = 'hsjd_vithas';
@@ -835,6 +847,8 @@ function renderCal(id) {
   const state = calState[id];
   if (!state) return;
   const {year, month, selected} = state;
+  const mod = CONFIGS[currentConfig].modules.find(m => m.id === id);
+  const sl = mod && mod.slotLabels;
   const label = document.getElementById(`${id}-month-label`);
   const grid  = document.getElementById(`${id}-cal`);
   if (!label || !grid) return;
@@ -874,6 +888,7 @@ function renderCal(id) {
     const inner = document.createElement('div');
     inner.className = 'cal-day-inner';
     inner.textContent = d;
+    if (sl) inner.setAttribute('data-sel-label', tipo === '17' ? sl.s17 : sl.s24);
     el.appendChild(inner);
 
     el.addEventListener('click', () => {
@@ -928,7 +943,7 @@ function getModuleHTML(mod) {
   let logoHTML = '';
   if (mod.logo && LOGOS[mod.logo]) {
     const src = isDark ? LOGOS[mod.logo].noche : LOGOS[mod.logo].dia;
-    logoHTML = `<img class="mod-logo" data-logo="${mod.logo}" src="${src}" style="height:34px;width:auto;vertical-align:middle;">`;
+    logoHTML = `<img class="mod-logo" data-logo="${mod.logo}" src="${src}" style="height:34px;max-width:115px;width:auto;object-fit:contain;vertical-align:middle;">`;
   }
   const tagClass = mod.tagColor ? `tag ${mod.tagColor}` : 'tag';
 
@@ -976,30 +991,32 @@ function getModuleHTML(mod) {
   } else if (mod.type === 'plana') {
     const v17 = mod.rates.r17 || '';
     const v24 = mod.rates.r24 || '';
+    const lb17 = mod.slotLabels ? mod.slotLabels.s17 : '17h';
+    const lb24 = mod.slotLabels ? mod.slotLabels.s24 : '24h';
     ratesHTML = `
       <div class="rates-box">
         <span class="rates-box-label">Tarifas</span>
         <div class="rate-item">
-          <span>17h</span>
+          <span>${lb17}</span>
           <input type="number" id="${mod.id}-rate17" value="${v17}" step="1" min="0" placeholder="0">
           <span class="rate-unit">€</span>
         </div>
         <div class="rate-item">
-          <span>24h</span>
+          <span>${lb24}</span>
           <input type="number" id="${mod.id}-rate24" value="${v24}" step="1" min="0" placeholder="0">
           <span class="rate-unit">€</span>
         </div>
       </div>`;
   }
 
+  const slotAttr = mod.slotLabels ? ` data-slot17="${mod.slotLabels.s17}" data-slot24="${mod.slotLabels.s24}"` : '';
   return `
-    <div class="card" data-module="${mod.id}">
+    <div class="card" data-module="${mod.id}"${slotAttr}>
       <div class="card-title">
         ${logoHTML}
         ${mod.name}
         <span class="${tagClass}">${mod.tag}</span>
       </div>
-      <div class="card-subtitle">${mod.subtitle}</div>
       ${ratesHTML}
       <div class="card-body">
         <div class="cal-wrap">
@@ -1028,8 +1045,8 @@ function getModuleHTML(mod) {
         </div>
       </div>
       <div class="results-grid">
-        <div class="result-box"><div class="label">Base bruta 17h</div><div class="value" id="${mod.id}-res17">0,00 €</div></div>
-        <div class="result-box"><div class="label">Base bruta 24h</div><div class="value" id="${mod.id}-res24">0,00 €</div></div>
+        <div class="result-box"><div class="label">Base bruta ${mod.slotLabels ? mod.slotLabels.s17 : '17h'}</div><div class="value" id="${mod.id}-res17">0,00 €</div></div>
+        <div class="result-box"><div class="label">Base bruta ${mod.slotLabels ? mod.slotLabels.s24 : '24h'}</div><div class="value" id="${mod.id}-res24">0,00 €</div></div>
         <div class="result-box bruto"><div class="label">Total bruto</div><div class="value" id="${mod.id}-bruto">0,00 €</div></div>
         <div class="result-box irpf-box"><div class="label">IRPF retenido</div><div class="value" id="${mod.id}-irpf-val">0,00 €</div></div>
         <div class="result-box neto"><div class="label">Total neto</div><div class="value" id="${mod.id}-neto">0,00 €</div></div>
