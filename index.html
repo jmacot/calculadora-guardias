@@ -92,6 +92,10 @@
     transition: border-color 0.2s, color 0.2s;
   }
   .back-home:hover { border-color: var(--accent); color: var(--accent); }
+  @media (max-width: 600px) {
+    .back-home { position: static; margin-bottom: 8px; }
+    header { text-align: center; }
+  }
 
   /* Dark mode toggle */
   .theme-toggle {
