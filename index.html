@@ -1085,12 +1085,42 @@ function applyTheme(dark) {
   imgHsjd.src = dark ? imgHsjdNocheSrc : imgHsjdDiaSrc;
   imgVithas.src = dark ? imgVithasNocheSrc : imgVithasDiaSrc;
 }
+function getAutoTheme() {
+  const hour = new Date().getHours();
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  return (hour >= 21 || hour < 7 || prefersDark) ? 'dark' : 'light';
+}
+
+function initTheme() {
+  const saved = localStorage.getItem('theme');
+  const savedDate = localStorage.getItem('theme-date');
+  const today = new Date().toDateString();
+  if (saved && savedDate === today) {
+    applyTheme(saved === 'dark');
+  } else {
+    localStorage.removeItem('theme');
+    localStorage.removeItem('theme-date');
+    applyTheme(getAutoTheme() === 'dark');
+  }
+}
+
 btnTheme.addEventListener('click', () => {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   applyTheme(!isDark);
   localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  localStorage.setItem('theme-date', new Date().toDateString());
 });
-applyTheme(localStorage.getItem('theme') === 'dark');
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+  const saved = localStorage.getItem('theme');
+  const savedDate = localStorage.getItem('theme-date');
+  const today = new Date().toDateString();
+  if (!saved || savedDate !== today) {
+    applyTheme(getAutoTheme() === 'dark');
+  }
+});
+
+initTheme();
 
 // ═══ ANIMACIÓN DE VALORES ═══
 function animateValue(el, newText) {
