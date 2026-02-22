@@ -6,57 +6,91 @@
 <title>Calculadora de Guardias</title>
 <link rel="icon" type="image/png" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
+<meta name="theme-color" content="#1e3a5f">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Guardias">
-<meta name="theme-color" content="#1a3a5c">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f0f2f5; --surface: #fff; --surface2: #f8f9fb;
-    --border: #d1d5db; --border-light: #e5e7eb;
-    --accent: #1a3a5c; --accent-light: #eef2f7; --accent-hover: #14304f;
-    --text: #222; --muted: #555; --light: #999;
-    --green: #16a34a; --green-light: #dcfce7;
-    --amber: #c0540a; --amber-light: #fef3c7;
-    --red: #dc2626; --red-light: #fee2e2;
-    --shadow: 0 2px 12px rgba(0,0,0,0.06);
-    --shadow-hover: 0 6px 24px rgba(26,33,51,0.10);
-    --radius: 12px;
+    --bg: #f4f6f9;
+    --surface: #ffffff;
+    --surface2: #f0f4f8;
+    --border: #dde3ec;
+    --accent: #1a7f4b;
+    --accent2: #1b5fc4;
+    --text: #1a2133;
+    --muted: #6b7a99;
+    --warn: #c0540a;
+    --shadow: 0 2px 12px rgba(26,33,51,0.07);
+    --shadow-hover: 0 6px 24px rgba(26,33,51,0.12);
   }
+  /* Dark mode */
   [data-theme="dark"] {
-    --bg: #111827; --surface: #1f2937; --surface2: #283244;
-    --border: #374151; --border-light: #4b5563;
-    --text: #f1f5f9; --muted: #94a3b8; --light: #64748b;
-    --accent-light: #1e3a5f;
-    --green-light: #14352a; --amber-light: #3b2a10; --red-light: #3b1010;
+    --bg: #111827;
+    --surface: #1f2937;
+    --surface2: #283244;
+    --border: #374151;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --warn: #f59e0b;
     --shadow: 0 2px 12px rgba(0,0,0,0.3);
     --shadow-hover: 0 6px 24px rgba(0,0,0,0.4);
   }
+  [data-theme="dark"] .result-box.bruto { background: #1e3a5f; border-color: #2563eb; }
+  [data-theme="dark"] .result-box.neto { background: #14352a; border-color: #22c55e; }
+  [data-theme="dark"] .result-box.irpf-box { background: #3b2a10; border-color: #d97706; }
+  [data-theme="dark"] .irpf-row input { background: #3b2a10; border-color: #d97706; color: #f59e0b; }
+  [data-theme="dark"] .rates-box { background: #283244; border-color: #374151; }
+  [data-theme="dark"] .rate-item input { background: var(--surface); border-color: var(--border); color: var(--text); }
+  [data-theme="dark"] .cal-day:hover:not(.empty) { background: var(--surface2); border-color: var(--border); }
+  [data-theme="dark"] .cal-day.sel-17 { background: #1e3a5f; border-color: #3b82f6; }
+  [data-theme="dark"] .cal-day.sel-17 .cal-day-inner { color: #93c5fd; }
+  [data-theme="dark"] .cal-day.sel-17 .cal-day-inner::after { color: #93c5fd; }
+  [data-theme="dark"] .cal-day.sel-24 { background: #14352a; border-color: #22c55e; }
+  [data-theme="dark"] .cal-day.sel-24 .cal-day-inner { color: #86efac; }
+  [data-theme="dark"] .cal-day.sel-24 .cal-day-inner::after { color: #86efac; }
+  [data-theme="dark"] .input-group input { background: var(--surface2); border-color: var(--border); color: var(--text); }
+  [data-theme="dark"] .input-group input:focus { background: var(--surface); }
   [data-theme="dark"] .tag { background: #1e3a5f; color: #93c5fd; }
   [data-theme="dark"] .tag.green { background: #14352a; color: #86efac; }
   [data-theme="dark"] .tag.amber { background: #3b2a10; color: #fbbf24; }
+  [data-theme="dark"] .config-pill.active { background: var(--accent2); border-color: var(--accent2); }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    background: var(--bg); color: var(--text);
+    background: var(--bg);
+    color: var(--text);
     font-family: 'Inter', sans-serif;
-    min-height: 100vh; padding: 2.5rem 1rem 5rem;
+    min-height: 100vh;
+    padding: 2.5rem 1rem 5rem;
   }
-  header { text-align: center; margin-bottom: 2.5rem; position: relative; }
+  header { text-align: center; margin-bottom: 2.5rem; }
   header h1 {
     font-family: 'Lora', serif;
     font-size: clamp(1.8rem, 4vw, 2.8rem);
-    letter-spacing: -0.02em; color: var(--text);
+    letter-spacing: -0.02em;
+    color: var(--text);
   }
   header p { color: var(--muted); margin-top: 0.5rem; font-size: 0.95rem; }
+  header { position: relative; }
 
   .back-home {
-    position: absolute; top: 0.3rem; left: 0.3rem;
-    display: inline-flex; align-items: center; gap: 4px;
-    font-family: 'DM Mono', 'SF Mono', monospace; font-size: 11px; letter-spacing: 0.05em;
-    color: var(--muted); text-decoration: none;
-    padding: 6px 12px; border-radius: 999px;
-    border: 1.5px solid var(--border); background: var(--surface2);
+    position: absolute;
+    top: 0.3rem;
+    left: 0.3rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'DM Mono', 'SF Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1.5px solid var(--border);
+    background: var(--surface2);
     transition: border-color 0.2s, color 0.2s;
   }
   .back-home:hover { border-color: var(--accent); color: var(--accent); }
@@ -66,237 +100,560 @@
     .theme-toggle { width: 32px; height: 32px; font-size: 1rem; top: 0.5rem; right: 0.5rem; }
   }
 
+  /* Dark mode toggle */
   .theme-toggle {
-    position: absolute; top: 0.3rem; right: 0.3rem;
-    background: var(--surface2); border: 1.5px solid var(--border);
-    border-radius: 50%; width: 42px; height: 42px; font-size: 1.3rem;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    box-shadow: var(--shadow); transition: border-color 0.2s, box-shadow 0.2s;
+    position: absolute;
+    top: 0.3rem;
+    right: 0.3rem;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .theme-toggle:hover { border-color: var(--accent); box-shadow: var(--shadow-hover); }
+  .theme-toggle:hover { border-color: var(--accent2); box-shadow: var(--shadow-hover); }
 
   /* Config pills */
   .config-pills {
-    display: flex; gap: 8px; justify-content: center;
-    margin-top: 1.2rem; flex-wrap: wrap;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 1.2rem;
+    flex-wrap: wrap;
   }
   .config-pill {
-    font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
-    padding: 6px 16px; border-radius: 999px;
-    border: 1.5px solid var(--border); background: var(--surface);
-    color: var(--muted); cursor: pointer; transition: all 0.2s;
-  }
-  .config-pill:hover { border-color: var(--accent); color: var(--accent); }
-  .config-pill.active {
-    border-color: var(--accent); color: #fff;
-    background: var(--accent);
-  }
-
-  .cal-reset-link {
-    display: block; text-align: center; margin-top: 0.5rem;
-    font-size: 0.7rem; color: var(--muted); opacity: 0.5;
-    cursor: pointer; background: none; border: none;
     font-family: 'Inter', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 0.22rem 0.7rem;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .config-pill:hover { border-color: var(--accent2); color: var(--accent2); }
+  .config-pill.active { border-color: var(--accent2); color: #fff; background: var(--accent2); }
+
+  /* Reset link under calendar */
+  .cal-reset-link {
+    display: block;
+    text-align: center;
+    margin-top: 0.5rem;
+    font-size: 0.7rem;
+    color: var(--muted);
+    opacity: 0.5;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    transition: opacity 0.15s;
   }
   .cal-reset-link:hover { opacity: 1; }
 
-  .value-animate { transition: transform 0.3s cubic-bezier(.4,0,.2,1), opacity 0.3s; }
-  .value-animate.bumping { transform: scale(1.08); }
+  /* Animated value transition */
+  .value-animate {
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1), opacity 0.3s;
+  }
+  .value-animate.bumping {
+    transform: scale(1.08);
+  }
   .container { max-width: 900px; margin: 0 auto; display: grid; gap: 1.4rem; }
 
+  /* CARD */
   .card {
-    background: var(--surface); border: 1px solid var(--border-light);
-    border-radius: var(--radius); box-shadow: var(--shadow);
-    padding: 1rem 1.2rem; transition: box-shadow 0.3s;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.8rem;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.25s, border-color 0.25s;
   }
-  .card:hover { box-shadow: var(--shadow-hover); }
+  .card:hover { box-shadow: var(--shadow-hover); border-color: #c4cfe0; }
   .card-title {
-    font-family: 'Lora', serif; font-size: 1.1rem; font-weight: 700;
-    color: var(--text); display: flex; align-items: center; gap: 0.6rem;
-    flex-wrap: wrap; margin-bottom: 0.6rem;
+    font-family: 'Lora', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
   }
-  .card-title img { height: 34px; width: auto; vertical-align: middle; }
   .tag {
-    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em;
-    padding: 2px 10px; border-radius: 999px; font-weight: 700;
-    background: var(--accent-light); color: var(--accent);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 0.18rem 0.55rem;
+    border-radius: 20px;
+    background: #dbeafe;
+    color: var(--accent2);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
-  .tag.amber { background: var(--amber-light); color: var(--amber); }
-  .tag.green { background: var(--green-light); color: var(--accent); }
+  .tag.green { background: #dcfce7; color: var(--accent); }
+  .tag.amber { background: #fef3c7; color: var(--warn); }
+  .card-subtitle { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.2rem; margin-top: 0.1rem; }
 
+  /* LAYOUT CARD: calendario + inputs lado a lado */
+  .card-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  @media(max-width: 768px) {
+    .card-body { grid-template-columns: 1fr; }
+  }
+
+  /* Grafico de barras */
+  .chart-wrap {
+    margin-top: 1.8rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+  .chart-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 1rem;
+  }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 0.65rem;
+  }
+  .bar-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+    width: 52px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+  .bar-track {
+    flex: 1;
+    height: 22px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+  }
+  .bar-neto {
+    height: 100%;
+    background: linear-gradient(90deg, #22c55e, #16a34a);
+    border-radius: 6px 0 0 6px;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    min-width: 0;
+  }
+  .bar-irpf {
+    height: 100%;
+    background: linear-gradient(90deg, #f97316, #ea580c);
+    border-radius: 0 6px 6px 0;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    min-width: 0;
+  }
+  .bar-amount {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    width: 62px;
+    flex-shrink: 0;
+    text-align: left;
+  }
+  .chart-legend {
+    display: flex;
+    gap: 1.2rem;
+    margin-top: 0.9rem;
+    justify-content: center;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.6);
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .legend-dot.neto { background: #22c55e; }
+  .legend-dot.irpf { background: #f97316; }
+
+  .bar-section-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 0.3rem;
+    margin-top: 0.2rem;
+    border-left: 2px solid rgba(255,255,255,0.2);
+    padding-left: 0.5rem;
+  }
+  .bar-label.bar-sub {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* Recuadro tarifas editable */
   .rates-box {
-    background: var(--surface2); border: 1px solid var(--border-light);
-    border-radius: 8px; padding: 0.6rem 0.8rem; margin-bottom: 0.6rem;
-    display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;
+    background: #f8fafc;
+    border: 1px dashed #c4cfe0;
+    border-radius: 10px;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
   }
   .rates-box-label {
-    font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-    color: var(--muted); letter-spacing: 0.04em; white-space: nowrap;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    white-space: nowrap;
   }
   .rate-item {
-    display: flex; align-items: center; gap: 4px; font-size: 0.82rem;
-    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--muted);
   }
   .rate-item input {
-    width: 60px; border: 1.5px solid var(--border); border-radius: 6px;
-    padding: 4px 6px; text-align: center; font-size: 0.82rem;
-    font-family: 'Inter', sans-serif; background: var(--surface);
-    color: var(--text); transition: border-color 0.2s;
+    width: 68px;
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: var(--text);
+    outline: none;
+    text-align: center;
+    transition: border-color 0.2s;
   }
-  .rate-item input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(26,58,92,0.1); }
-  .rate-unit { font-size: 0.7rem; color: var(--muted); }
+  .rate-item input:focus {
+    border-color: var(--accent2);
+    box-shadow: 0 0 0 2px rgba(27,95,196,0.08);
+  }
+  .rate-unit {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
 
-  .card-body { display: flex; gap: 1rem; align-items: flex-start; }
-  @media (max-width: 600px) { .card-body { flex-direction: column; } }
-
-  .cal-wrap { flex: 1; min-width: 240px; }
+  /* CALENDARIO */
+  .cal-wrap { }
   .cal-header {
-    display: flex; justify-content: space-between;
-    align-items: center; margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
   }
   .cal-header button {
-    background: var(--surface2); border: 1px solid var(--border-light);
-    border-radius: 6px; width: 28px; height: 28px;
-    font-size: 1.1rem; cursor: pointer; color: var(--text);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    width: 30px; height: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--text);
     display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s;
+    transition: background 0.15s;
   }
   .cal-header button:hover { background: var(--border); }
   .cal-month {
-    font-weight: 600; font-size: 0.85rem; color: var(--text);
-    user-select: none;
+    font-family: 'Lora', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    text-align: center;
+    flex: 1;
   }
   .cal-grid {
-    display: grid; grid-template-columns: repeat(7, 1fr);
-    gap: 3px; text-align: center;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    width: 100%;
   }
   .cal-dow {
-    font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
-    color: var(--muted); padding: 2px 0;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    text-align: center;
+    padding: 4px 0;
   }
-  .cal-dow.weekend { color: var(--amber); }
-  .cal-day { cursor: pointer; border-radius: 6px; transition: background 0.15s; }
-  .cal-day.empty { cursor: default; }
+  .cal-dow.weekend { color: #e05a2b; }
+  .cal-day {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    border-radius: 7px;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: transparent;
+  }
   .cal-day-inner {
-    width: 100%; aspect-ratio: 1; display: flex; align-items: center;
-    justify-content: center; font-size: 0.78rem; font-weight: 500;
-    border-radius: 6px; color: var(--text); transition: background 0.15s;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text);
   }
-  .cal-day:not(.empty):hover .cal-day-inner { background: var(--accent-light); }
-  .cal-day.weekend .cal-day-inner { color: var(--amber); font-weight: 700; }
-  .cal-day.festivo .cal-day-inner { color: var(--red); font-weight: 700; }
+  .cal-day:hover:not(.empty) { background: var(--surface2); border-color: var(--border); }
+  .cal-day.empty { cursor: default; pointer-events: none; }
+  .cal-day.weekend .cal-day-inner { color: #c0540a; }
+  .cal-day.festivo .cal-day-inner { color: #9333ea; }
+
+  /* Seleccionado 17h */
+  .cal-day.sel-17 {
+    background: #dbeafe;
+    border-color: #3b82f6;
+  }
   .cal-day.sel-17 .cal-day-inner {
-    background: var(--accent); color: #fff; font-weight: 700;
-    box-shadow: 0 2px 6px rgba(26,58,92,0.25);
+    color: #1b5fc4;
+    font-weight: 700;
+  }
+  .cal-day.sel-17 .cal-day-inner::after {
+    content: '17h';
+    font-size: 0.5rem;
+    font-weight: 700;
+    color: #1b5fc4;
+    line-height: 1;
+    margin-top: 1px;
+  }
+  /* Seleccionado 24h */
+  .cal-day.sel-24 {
+    background: #f0fdf4;
+    border-color: #22c55e;
   }
   .cal-day.sel-24 .cal-day-inner {
-    background: var(--amber); color: #fff; font-weight: 700;
-    box-shadow: 0 2px 6px rgba(192,84,10,0.25);
+    color: #1a7f4b;
+    font-weight: 700;
+  }
+  .cal-day.sel-24 .cal-day-inner::after {
+    content: '24h';
+    font-size: 0.5rem;
+    font-weight: 700;
+    color: #1a7f4b;
+    line-height: 1;
+    margin-top: 1px;
   }
 
-  .inputs-side { flex: 0 0 170px; display: flex; flex-direction: column; gap: 0.7rem; }
-  @media (max-width: 600px) { .inputs-side { flex: 1 1 100%; } }
+  .cal-legend {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.7rem;
+    flex-wrap: wrap;
+  }
+  .cal-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .cal-legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  /* INPUTS LADO DERECHO */
+  .inputs-side { display: flex; flex-direction: column; gap: 1rem; }
   .input-group label {
-    display: block; font-size: 0.7rem; font-weight: 700;
-    text-transform: uppercase; color: var(--muted);
-    letter-spacing: 0.04em; margin-bottom: 2px;
+    display: block;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
   }
   .input-group input {
-    width: 100%; border: 1.5px solid var(--border);
-    border-radius: 8px; padding: 10px 14px;
-    font-size: 1.5rem; font-weight: 700; text-align: center;
-    font-family: 'Inter', sans-serif; color: var(--text);
-    background: var(--surface); transition: border-color 0.2s;
+    width: 100%;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 0.65rem 0.9rem;
+    color: var(--text);
+    font-size: 1.1rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .input-group input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,58,92,0.10); }
+  .input-group input:focus {
+    border-color: var(--accent2);
+    box-shadow: 0 0 0 3px rgba(27,95,196,0.1);
+    background: #fff;
+  }
+  .input-group input[type=number]::-webkit-inner-spin-button { opacity: 0.4; }
+
   .irpf-row {
-    display: flex; align-items: center; gap: 6px;
-    background: var(--surface2); padding: 6px 10px; border-radius: 8px;
-    border: 1px solid var(--border-light);
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
-  .irpf-row label { font-size: 0.72rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+  .irpf-row label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    white-space: nowrap;
+  }
   .irpf-row input {
-    width: 55px; border: 1.5px solid var(--border); border-radius: 6px;
-    padding: 4px 6px; text-align: center; font-size: 0.85rem;
-    font-family: 'Inter', sans-serif; font-weight: 600;
-    background: var(--surface); color: var(--text); transition: border-color 0.2s;
+    width: 80px;
+    background: #fff7ed;
+    border: 1.5px solid #fcd9b0;
+    border-radius: 10px;
+    padding: 0.5rem 0.7rem;
+    color: var(--warn);
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    outline: none;
+    text-align: center;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .irpf-row input:focus { outline: none; border-color: var(--accent); }
-  .irpf-hint { font-size: 0.65rem; color: var(--light); }
+  .irpf-row input:focus { border-color: var(--warn); box-shadow: 0 0 0 3px rgba(192,84,10,0.1); }
+  .irpf-hint { font-size: 0.78rem; color: var(--muted); }
 
+  /* RESULTADOS */
   .results-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 6px; margin-top: 0.7rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.8rem;
+    margin-top: 1.2rem;
   }
+  @media(max-width:600px) { .results-grid { grid-template-columns: 1fr; } }
   .result-box {
-    background: var(--surface2); border-radius: 8px;
-    padding: 8px 10px; text-align: center;
-    border: 1px solid var(--border-light);
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    text-align: center;
   }
-  .result-box .label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.04em; }
-  .result-box .value { font-size: 1rem; font-weight: 700; color: var(--text); margin-top: 2px; }
-  .result-box.bruto { background: var(--accent-light); border-color: var(--accent); }
-  .result-box.bruto .label { color: var(--accent); }
-  .result-box.bruto .value { color: var(--accent); font-size: 1.1rem; }
-  .result-box.neto { background: var(--green-light); border-color: var(--green); grid-column: 1 / -1; }
-  .result-box.neto .label { color: var(--green); }
-  .result-box.neto .value { color: var(--green); font-size: 1.15rem; }
-  .result-box.irpf-box { }
-  .result-box.irpf-box .value { color: var(--amber); }
+  .result-box .label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 0.45rem;
+  }
+  .result-box .value {
+    font-family: 'Lora', serif;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .result-box.bruto { background: #eff6ff; border-color: #bfdbfe; }
+  .result-box.bruto .value { color: var(--accent2); }
+  .result-box.neto { background: #f0fdf4; border-color: #bbf7d0; }
+  .result-box.neto .value { color: var(--accent); }
+  .result-box.irpf-box { background: #fff7ed; border-color: #fcd9b0; }
+  .result-box.irpf-box .value { color: var(--warn); }
 
-  /* Final card */
+  /* TOTAL FINAL */
   .final-card {
-    background: linear-gradient(135deg, #1a3a5c 0%, #0f2640 100%);
-    border-radius: var(--radius); padding: 1.5rem;
-    color: #fff; box-shadow: 0 4px 20px rgba(26,58,92,0.3);
+    background: linear-gradient(135deg, #1b4fa0 0%, #1a3a7a 100%);
+    border: none;
+    border-radius: 16px;
+    padding: 2.2rem;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(27,79,160,0.25);
   }
   .final-card h2 {
-    text-align: center; font-family: 'Lora', serif;
-    font-size: 1.15rem; margin-bottom: 1rem; font-weight: 600;
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.65);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.6rem;
+    font-weight: 600;
   }
-  .final-amounts {
-    display: flex; justify-content: center; gap: 2rem;
-    align-items: center; flex-wrap: wrap; margin-bottom: 1.2rem;
+  .final-amounts { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; }
+  .final-item .flabel {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 0.4rem;
+    font-weight: 600;
   }
-  .final-item { text-align: center; }
-  .final-item .flabel { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.6; margin-bottom: 0.3rem; }
-  .final-item.bruto .famount { font-size: 1.6rem; font-weight: 700; }
-  .final-item.neto .famount { font-size: 2rem; font-weight: 700; color: #86efac; }
-  .separator { width: 1px; height: 40px; background: rgba(255,255,255,0.15); }
-
-  .breakdown { max-width: 400px; margin: 0 auto; }
+  .final-item .famount {
+    font-family: 'Lora', serif;
+    font-size: 2.6rem;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: #ffffff;
+  }
+  .final-item.neto .famount { color: #6ee7a0; }
+  .separator { width: 1px; background: rgba(255,255,255,0.2); align-self: stretch; }
+  .breakdown { margin-top: 1.8rem; display: grid; gap: 0.3rem; }
+  .breakdown-group {
+    margin-top: 0.5rem;
+    font-weight: 700 !important;
+    font-size: 0.8rem !important;
+    color: rgba(255,255,255,0.9) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 0.2rem;
+  }
+  .breakdown-group span { font-weight: 700 !important; }
+  .breakdown-sub span:first-child {
+    color: rgba(255,255,255,0.6) !important;
+    font-size: 0.78rem;
+    padding-left: 0.3rem;
+  }
   .breakdown-row {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.08);
-    font-size: 0.82rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.87rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.55);
   }
-  .breakdown-group { font-weight: 700; opacity: 0.7; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; border-bottom: none; padding-bottom: 0.1rem; }
-  .breakdown-sub span:first-child { padding-left: 0.5rem; opacity: 0.8; }
   .breakdown-row:last-child { border-bottom: none; }
   .breakdown-row span:last-child { color: rgba(255,255,255,0.9); font-weight: 600; }
-
-  .chart-wrap { margin-top: 1rem; }
-  .chart-title { text-align: center; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.5; margin-bottom: 0.8rem; }
-  .bar-section-label { font-size: 0.72rem; font-weight: 700; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.3rem; }
-  .bar-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; }
-  .bar-label { font-size: 0.7rem; width: 65px; text-align: right; opacity: 0.7; flex-shrink: 0; }
-  .bar-sub { font-size: 0.65rem; }
-  .bar-track { flex: 1; height: 14px; background: rgba(255,255,255,0.06); border-radius: 7px; display: flex; overflow: hidden; }
-  .bar-neto { background: #22c55e; height: 100%; transition: width 0.4s; border-radius: 7px 0 0 7px; }
-  .bar-irpf { background: #fbbf24; height: 100%; transition: width 0.4s; }
-  .bar-amount { font-size: 0.72rem; width: 70px; text-align: right; opacity: 0.7; }
-  .chart-legend { display: flex; justify-content: center; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.7rem; opacity: 0.6; }
-  .legend-item { display: flex; align-items: center; gap: 4px; }
-  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .legend-dot.neto { background: #22c55e; }
-  .legend-dot.irpf { background: #fbbf24; }
 
   input[type=number]::-webkit-inner-spin-button,
   input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
   input[type=number] { -moz-appearance: textfield; }
 
   .app-footer { text-align: center; padding: 16px 0; margin-top: 1rem; }
-  .app-footer span { font-size: 0.7rem; color: var(--light); letter-spacing: 0.03em; }
+  .app-footer span { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.03em; }
 </style>
 </head>
 <body>
@@ -305,7 +662,7 @@
   <a class="back-home" href="https://jmacot.github.io/" title="Volver al inicio">← Inicio</a>
   <button class="theme-toggle" id="btn-theme" title="Cambiar tema"></button>
   <h1>Calculadora de Guardias</h1>
-  <p>Selecciona los días en el calendario para calcular tu retribución mensual</p>
+  <p>Selecciona los dias en el calendario para calcular tu retribucion mensual</p>
   <div class="config-pills" id="config-pills"></div>
 </header>
 
@@ -329,37 +686,37 @@ const CONFIGS = {
   hsjd: {
     label: 'HSJD',
     modules: [
-      { id: 'gpf', name: 'Guardias Presencia Física', type: 'presencial', tag: 'Presenciales', tagColor: '', logo: 'hsjd', rates: { r17: 21.31, r24: 20.01 }, labels: { c17: 'Guardias de 17 horas', c24: 'Guardias de 24 horas' } },
-      { id: 'hsjd', name: 'HSJD Localizadas', type: 'compuesta', tag: 'Localizados', tagColor: 'amber', logo: 'hsjd', rates: { m17: 8.5, e17: 21.31, m24: 12, e24: 20.01 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' } }
+      { id: 'gpf', name: 'Guardias de Presencia Fisica', type: 'presencial', tag: 'Presenciales', tagColor: '', logo: 'hsjd', rates: { r17: 21.31, r24: 20.01 }, labels: { c17: 'Guardias de 17 horas', c24: 'Guardias de 24 horas' }, subtitle: 'Calculadas como guardias x tarifa/hora x horas de guardia' },
+      { id: 'hsjd', name: 'HSJD Localizadas', type: 'compuesta', tag: 'Localizados', tagColor: 'amber', logo: 'hsjd', rates: { m17: 8.5, e17: 21.31, m24: 12, e24: 20.01 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' }, subtitle: 'Guardias de localizacion con tarifa compuesta' }
     ]
   },
   hsjd_vithas: {
     label: 'HSJD + VITHAS',
     modules: [
-      { id: 'gpf', name: 'Guardias Presencia Física', type: 'presencial', tag: 'Presenciales', tagColor: '', logo: 'hsjd', rates: { r17: 21.31, r24: 20.01 }, labels: { c17: 'Guardias de 17 horas', c24: 'Guardias de 24 horas' } },
-      { id: 'hsjd', name: 'HSJD Localizadas', type: 'compuesta', tag: 'Localizados', tagColor: 'amber', logo: 'hsjd', rates: { m17: 8.5, e17: 21.31, m24: 12, e24: 20.01 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' } },
-      { id: 'loc', name: 'Vithas Localizadas', type: 'plana', tag: 'Localizados', tagColor: 'green', logo: 'vithas', rates: { r17: 250, r24: 300 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' } }
+      { id: 'gpf', name: 'Guardias de Presencia Fisica', type: 'presencial', tag: 'Presenciales', tagColor: '', logo: 'hsjd', rates: { r17: 21.31, r24: 20.01 }, labels: { c17: 'Guardias de 17 horas', c24: 'Guardias de 24 horas' }, subtitle: 'Calculadas como guardias x tarifa/hora x horas de guardia' },
+      { id: 'hsjd', name: 'HSJD Localizadas', type: 'compuesta', tag: 'Localizados', tagColor: 'amber', logo: 'hsjd', rates: { m17: 8.5, e17: 21.31, m24: 12, e24: 20.01 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' }, subtitle: 'Guardias de localizacion con tarifa compuesta' },
+      { id: 'loc', name: 'Vithas Localizadas', type: 'plana', tag: 'Localizados', tagColor: 'green', logo: 'vithas', rates: { r17: 250, r24: 300 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' }, subtitle: 'Guardias localizadas con tarifa plana por dia' }
     ]
   },
   vithas: {
     label: 'VITHAS',
     modules: [
-      { id: 'loc', name: 'Vithas Localizadas', type: 'plana', tag: 'Localizados', tagColor: 'green', logo: 'vithas', rates: { r17: 250, r24: 300 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' } }
+      { id: 'loc', name: 'Vithas Localizadas', type: 'plana', tag: 'Localizados', tagColor: 'green', logo: 'vithas', rates: { r17: 250, r24: 300 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' }, subtitle: 'Guardias localizadas con tarifa plana por dia' }
     ]
   },
   sas: {
     label: 'SAS',
     modules: [
-      { id: 'sas_pf', name: 'Guardias Presencia Física', type: 'presencial', tag: 'Presenciales', tagColor: '', logo: null, rates: { r17: 0, r24: 0 }, labels: { c17: 'Guardias de 17 horas', c24: 'Guardias de 24 horas' } },
-      { id: 'sas_loc', name: 'SAS Localizadas', type: 'compuesta', tag: 'Localizados', tagColor: 'amber', logo: null, rates: { m17: 0, e17: 0, m24: 0, e24: 0 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' } }
+      { id: 'sas_pf', name: 'Guardias Presencia Fisica', type: 'presencial', tag: 'Presenciales', tagColor: '', logo: null, rates: { r17: 0, r24: 0 }, labels: { c17: 'Guardias de 17 horas', c24: 'Guardias de 24 horas' }, subtitle: 'Calculadas como guardias x tarifa/hora x horas de guardia' },
+      { id: 'sas_loc', name: 'SAS Localizadas', type: 'compuesta', tag: 'Localizados', tagColor: 'amber', logo: null, rates: { m17: 0, e17: 0, m24: 0, e24: 0 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' }, subtitle: 'Guardias de localizacion con tarifa compuesta' }
     ]
   },
   sas_privada: {
     label: 'SAS + PRIVADA',
     modules: [
-      { id: 'sas_pf', name: 'Guardias Presencia Física', type: 'presencial', tag: 'Presenciales', tagColor: '', logo: null, rates: { r17: 0, r24: 0 }, labels: { c17: 'Guardias de 17 horas', c24: 'Guardias de 24 horas' } },
-      { id: 'sas_loc', name: 'SAS Localizadas', type: 'compuesta', tag: 'Localizados', tagColor: 'amber', logo: null, rates: { m17: 0, e17: 0, m24: 0, e24: 0 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' } },
-      { id: 'priv', name: 'Privada Localizadas', type: 'plana', tag: 'Localizados', tagColor: 'green', logo: null, rates: { r17: 0, r24: 0 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' } }
+      { id: 'sas_pf', name: 'Guardias Presencia Fisica', type: 'presencial', tag: 'Presenciales', tagColor: '', logo: null, rates: { r17: 0, r24: 0 }, labels: { c17: 'Guardias de 17 horas', c24: 'Guardias de 24 horas' }, subtitle: 'Calculadas como guardias x tarifa/hora x horas de guardia' },
+      { id: 'sas_loc', name: 'SAS Localizadas', type: 'compuesta', tag: 'Localizados', tagColor: 'amber', logo: null, rates: { m17: 0, e17: 0, m24: 0, e24: 0 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' }, subtitle: 'Guardias de localizacion con tarifa compuesta' },
+      { id: 'priv', name: 'Privada Localizadas', type: 'plana', tag: 'Localizados', tagColor: 'green', logo: null, rates: { r17: 0, r24: 0 }, labels: { c17: 'Localizadas de 17 horas', c24: 'Localizadas de 24 horas' }, subtitle: 'Guardias localizadas con tarifa plana por dia' }
     ]
   }
 };
@@ -405,7 +762,7 @@ function festivosNacionales(y) {
   return set;
 }
 
-// ═══ FESTIVOS AUTONÓMICOS ═══
+// ═══ FESTIVOS AUTONOMICOS ═══
 const FESTIVOS_CCAA = {
   'andalucia':       { fijos: [[2,28]], pascua: ['jueves_santo'] },
   'aragon':          { fijos: [[4,23]], pascua: ['jueves_santo'] },
@@ -547,7 +904,7 @@ function syncInputs(id) {
   if (el24) el24.value = c24;
 }
 
-// ═══ NAVEGACIÓN CALENDARIOS (con sync) ═══
+// ═══ NAVEGACION CALENDARIOS (con sync) ═══
 function navCal(sourceId, dir) {
   let newMonth = calState[sourceId].month + dir;
   let newYear = calState[sourceId].year;
@@ -564,7 +921,7 @@ function navCal(sourceId, dir) {
 }
 
 // ─────────────────────────────────────────────
-//  GENERAR MÓDULOS DINÁMICAMENTE
+//  GENERAR MODULOS DINAMICAMENTE
 // ─────────────────────────────────────────────
 function getModuleHTML(mod) {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -581,15 +938,15 @@ function getModuleHTML(mod) {
     const v24 = mod.rates.r24 || '';
     ratesHTML = `
       <div class="rates-box">
-        <span class="rates-box-label">⚙ Tarifas</span>
+        <span class="rates-box-label">Tarifas</span>
         <div class="rate-item">
-          <span>17h —</span>
-          <input type="number" id="${mod.id}-rate17" value="${v17}" step="0.01" min="0" placeholder="€/h">
+          <span>17h</span>
+          <input type="number" id="${mod.id}-rate17" value="${v17}" step="0.01" min="0" placeholder="0">
           <span class="rate-unit">€/h</span>
         </div>
         <div class="rate-item">
-          <span>24h —</span>
-          <input type="number" id="${mod.id}-rate24" value="${v24}" step="0.01" min="0" placeholder="€/h">
+          <span>24h</span>
+          <input type="number" id="${mod.id}-rate24" value="${v24}" step="0.01" min="0" placeholder="0">
           <span class="rate-unit">€/h</span>
         </div>
       </div>`;
@@ -600,19 +957,19 @@ function getModuleHTML(mod) {
     const e24 = mod.rates.e24 || '';
     ratesHTML = `
       <div class="rates-box">
-        <span class="rates-box-label">⚙ Tarifas</span>
+        <span class="rates-box-label">Tarifas</span>
         <div class="rate-item">
-          <span>17h —</span>
-          <input type="number" id="${mod.id}-mult17" value="${m17}" step="0.5" min="0" placeholder="h" style="width:45px">
-          <span class="rate-unit">h ×</span>
-          <input type="number" id="${mod.id}-eur17" value="${e17}" step="0.01" min="0" placeholder="€/h">
+          <span>17h</span>
+          <input type="number" id="${mod.id}-mult17" value="${m17}" step="0.5" min="0" placeholder="h" style="width:50px">
+          <span class="rate-unit">h x</span>
+          <input type="number" id="${mod.id}-eur17" value="${e17}" step="0.01" min="0" placeholder="0">
           <span class="rate-unit">€/h</span>
         </div>
         <div class="rate-item">
-          <span>24h —</span>
-          <input type="number" id="${mod.id}-mult24" value="${m24}" step="0.5" min="0" placeholder="h" style="width:45px">
-          <span class="rate-unit">h ×</span>
-          <input type="number" id="${mod.id}-eur24" value="${e24}" step="0.01" min="0" placeholder="€/h">
+          <span>24h</span>
+          <input type="number" id="${mod.id}-mult24" value="${m24}" step="0.5" min="0" placeholder="h" style="width:50px">
+          <span class="rate-unit">h x</span>
+          <input type="number" id="${mod.id}-eur24" value="${e24}" step="0.01" min="0" placeholder="0">
           <span class="rate-unit">€/h</span>
         </div>
       </div>`;
@@ -621,15 +978,15 @@ function getModuleHTML(mod) {
     const v24 = mod.rates.r24 || '';
     ratesHTML = `
       <div class="rates-box">
-        <span class="rates-box-label">⚙ Tarifas</span>
+        <span class="rates-box-label">Tarifas</span>
         <div class="rate-item">
-          <span>17h —</span>
-          <input type="number" id="${mod.id}-rate17" value="${v17}" step="1" min="0" placeholder="€">
+          <span>17h</span>
+          <input type="number" id="${mod.id}-rate17" value="${v17}" step="1" min="0" placeholder="0">
           <span class="rate-unit">€</span>
         </div>
         <div class="rate-item">
-          <span>24h —</span>
-          <input type="number" id="${mod.id}-rate24" value="${v24}" step="1" min="0" placeholder="€">
+          <span>24h</span>
+          <input type="number" id="${mod.id}-rate24" value="${v24}" step="1" min="0" placeholder="0">
           <span class="rate-unit">€</span>
         </div>
       </div>`;
@@ -642,6 +999,7 @@ function getModuleHTML(mod) {
         ${mod.name}
         <span class="${tagClass}">${mod.tag}</span>
       </div>
+      <div class="card-subtitle">${mod.subtitle}</div>
       ${ratesHTML}
       <div class="card-body">
         <div class="cal-wrap">
@@ -665,16 +1023,16 @@ function getModuleHTML(mod) {
           <div class="irpf-row">
             <label>IRPF (%)</label>
             <input type="number" id="${mod.id}-irpf" min="0" max="50" step="0.5" value="15">
-            <span class="irpf-hint">Retención fiscal</span>
+            <span class="irpf-hint">Retencion fiscal</span>
           </div>
         </div>
       </div>
       <div class="results-grid">
-        <div class="result-box"><div class="label">Base bruta 17h</div><div class="value" id="${mod.id}-res17">0 €</div></div>
-        <div class="result-box"><div class="label">Base bruta 24h</div><div class="value" id="${mod.id}-res24">0 €</div></div>
-        <div class="result-box bruto"><div class="label">Total bruto</div><div class="value" id="${mod.id}-bruto">0 €</div></div>
-        <div class="result-box irpf-box" style="grid-column:2/3"><div class="label">IRPF retenido</div><div class="value" id="${mod.id}-irpf-val">0 €</div></div>
-        <div class="result-box neto"><div class="label">Total neto</div><div class="value" id="${mod.id}-neto">0 €</div></div>
+        <div class="result-box"><div class="label">Base bruta 17h</div><div class="value" id="${mod.id}-res17">0,00 €</div></div>
+        <div class="result-box"><div class="label">Base bruta 24h</div><div class="value" id="${mod.id}-res24">0,00 €</div></div>
+        <div class="result-box bruto"><div class="label">Total bruto</div><div class="value" id="${mod.id}-bruto">0,00 €</div></div>
+        <div class="result-box irpf-box"><div class="label">IRPF retenido</div><div class="value" id="${mod.id}-irpf-val">0,00 €</div></div>
+        <div class="result-box neto"><div class="label">Total neto</div><div class="value" id="${mod.id}-neto">0,00 €</div></div>
       </div>
     </div>`;
 }
@@ -683,7 +1041,7 @@ function renderFinalCard() {
   const cfg = CONFIGS[currentConfig];
   const mods = cfg.modules;
 
-  // Agrupar módulos por hospital para el breakdown
+  // Agrupar modulos por hospital para el breakdown
   const groups = {};
   mods.forEach(m => {
     const groupName = m.logo ? (m.logo === 'hsjd' ? 'HSJD' : 'VITHAS') : m.name.split(' ')[0].toUpperCase();
@@ -698,12 +1056,12 @@ function renderFinalCard() {
     }
     groupMods.forEach(m => {
       const subLabel = m.type === 'presencial' ? 'Presenciales' : 'Localizadas';
-      const prefix = (Object.keys(groups).length > 1 || groupMods.length > 1) ? '↳ ' : '';
+      const prefix = (Object.keys(groups).length > 1 || groupMods.length > 1) ? '  ' : '';
       const cls = (Object.keys(groups).length > 1 || groupMods.length > 1) ? 'breakdown-row breakdown-sub' : 'breakdown-row';
-      breakdownHTML += `<div class="${cls}"><span>${prefix}${subLabel}</span><span id="bk-${m.id}-neto">0 €</span></div>`;
+      breakdownHTML += `<div class="${cls}"><span>${prefix}${subLabel}</span><span id="bk-${m.id}-neto">0,00 €</span></div>`;
     });
   }
-  breakdownHTML += `<div class="breakdown-row" style="margin-top:0.5rem"><span>IRPF total retenido</span><span id="bk-irpf-total" style="color:#fbbf24">0 €</span></div>`;
+  breakdownHTML += `<div class="breakdown-row" style="margin-top:0.5rem"><span>IRPF total retenido</span><span id="bk-irpf-total" style="color:#fbbf24">0,00 €</span></div>`;
 
   // Barras de desglose
   let barsHTML = '';
@@ -718,29 +1076,29 @@ function renderFinalCard() {
             <div class="bar-neto" id="bar-${m.id}-neto" style="width:0%"></div>
             <div class="bar-irpf" id="bar-${m.id}-irpf" style="width:0%"></div>
           </div>
-          <div class="bar-amount" id="bar-${m.id}-amt">0 €</div>
+          <div class="bar-amount" id="bar-${m.id}-amt">0,00 €</div>
         </div>`;
     });
   }
 
   document.getElementById('final-card').innerHTML = `
-    <h2>💰 Resumen Total del Mes</h2>
+    <h2>Resumen Total del Mes</h2>
     <div class="final-amounts">
       <div class="final-item bruto">
         <div class="flabel">Total Bruto</div>
-        <div class="famount" id="totalBruto">0 €</div>
+        <div class="famount" id="totalBruto">0,00 €</div>
       </div>
       <div class="separator"></div>
       <div class="final-item neto">
         <div class="flabel">Total Neto</div>
-        <div class="famount" id="totalNeto">0 €</div>
+        <div class="famount" id="totalNeto">0,00 €</div>
       </div>
     </div>
     <div class="breakdown" style="max-width:400px;margin:0 auto">
       ${breakdownHTML}
     </div>
     <div class="chart-wrap">
-      <div class="chart-title">Desglose por módulo</div>
+      <div class="chart-title">Desglose por modulo</div>
       ${barsHTML}
       <div class="chart-legend">
         <div class="legend-item"><div class="legend-dot neto"></div>Neto</div>
@@ -754,7 +1112,7 @@ function renderModules(configKey) {
   const cfg = CONFIGS[configKey];
   const container = document.getElementById('modules-container');
 
-  // Guardar mes/año actual si existe
+  // Guardar mes/anio actual si existe
   let savedYear = new Date().getFullYear();
   let savedMonth = new Date().getMonth();
   const anyState = Object.values(calState)[0];
@@ -773,7 +1131,7 @@ function renderModules(configKey) {
     };
   });
 
-  // Generar HTML de módulos
+  // Generar HTML de modulos
   container.innerHTML = cfg.modules.map(m => getModuleHTML(m)).join('');
 
   // Generar final card
@@ -785,7 +1143,7 @@ function renderModules(configKey) {
   // Renderizar calendarios
   renderAllCals();
 
-  // Añadir event listeners
+  // Anadir event listeners
   cfg.modules.forEach(m => {
     document.getElementById(`${m.id}-prev`).addEventListener('click', () => navCal(m.id, -1));
     document.getElementById(`${m.id}-next`).addEventListener('click', () => navCal(m.id, 1));
@@ -818,7 +1176,7 @@ function renderModules(configKey) {
 }
 
 // ─────────────────────────────────────────────
-//  CÁLCULOS
+//  CALCULOS
 // ─────────────────────────────────────────────
 function animateValue(el, newText) {
   if (!el || el.textContent === newText) return;
@@ -950,9 +1308,14 @@ function loadConfig() {
 const btnTheme = document.getElementById('btn-theme');
 
 function applyTheme(dark) {
-  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-  btnTheme.textContent = dark ? '☀️' : '🌙';
-  // Cambiar logos día/noche
+  if (dark) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    btnTheme.textContent = '☀️';
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+    btnTheme.textContent = '🌙';
+  }
+  // Cambiar logos dia/noche
   document.querySelectorAll('.mod-logo').forEach(img => {
     const key = img.dataset.logo;
     if (key && LOGOS[key]) {
@@ -1001,7 +1364,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () 
 // ─────────────────────────────────────────────
 initTheme();
 
-// Renderizar pills de configuración
+// Renderizar pills de configuracion
 const pillsContainer = document.getElementById('config-pills');
 Object.entries(CONFIGS).forEach(([key, cfg]) => {
   const btn = document.createElement('button');
@@ -1015,7 +1378,7 @@ Object.entries(CONFIGS).forEach(([key, cfg]) => {
   pillsContainer.appendChild(btn);
 });
 
-// Cargar configuración guardada o por defecto
+// Cargar configuracion guardada o por defecto
 const initialConfig = loadConfig();
 renderModules(initialConfig);
 saveConfig(initialConfig);
