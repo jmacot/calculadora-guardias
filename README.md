@@ -1,54 +1,69 @@
-# 🏥 Calculadora de Guardias Médicas
+# 🏥 Calculadora de Guardias Medicas
 
-Herramienta web para calcular la retribución económica de las guardias médicas. Permite registrar guardias de presencia física y localizadas, visualizarlas en un calendario mensual y obtener automáticamente el importe bruto, IRPF y neto.
+Herramienta web para calcular la retribucion economica de las guardias medicas. Permite registrar guardias de presencia fisica y localizadas, visualizarlas en un calendario mensual y obtener automaticamente el importe bruto, IRPF y neto.
 
-## 🌐 Acceso directo
-
-👉 **[Abrir la aplicación en el navegador](https://jmacot.github.io/calculadora-guardias/)**
-
----
-
-## ✨ Funcionalidades
-
-- **Tres módulos de guardia**: Guardias de Presencia Física (GPF), Guardias HSJD y Guardias Localizadas (Vithas)
-- **Calendario interactivo**: Selecciona los días de guardia directamente en el calendario. Los tres módulos se sincronizan al cambiar de mes
-- **Cálculo automático**: Introduce el valor de cada guardia y obtiene al instante el importe bruto, la retención de IRPF y el neto a percibir
-- **Modo oscuro / modo claro**: Cambia el tema con un solo clic, con logos adaptados a cada modo
-- **Sin instalación**: Es un único archivo HTML autocontenido. Ábrelo en cualquier navegador
+![HTML5](https://img.shields.io/badge/HTML5-single--file-E34F26?logo=html5&logoColor=white)
+![Modulos](https://img.shields.io/badge/modulos-3-1a3a5c)
+![Sin dependencias](https://img.shields.io/badge/dependencias-ninguna-grey)
 
 ---
 
-## 🚀 Uso
+## Acceso directo
 
-1. Descarga o clona el repositorio
-2. Abre el archivo `index.html` en tu navegador
-3. Selecciona el mes y el año
-4. Marca los días de guardia en el calendario de cada módulo
-5. Introduce el valor económico de cada tipo de guardia
-6. Consulta el desglose económico en la parte inferior
+[Abrir la aplicacion](https://jmacot.github.io/calculadora-guardias/)
+
+No requiere instalacion. Funciona en cualquier navegador, incluyendo movil y tablet.
 
 ---
 
-## 📁 Estructura
+## Funcionalidades
+
+- **Tres modulos de guardia**: Guardias de Presencia Fisica (GPF), Guardias HSJD y Guardias Localizadas (Vithas)
+- **Calendario interactivo**: selecciona los dias de guardia directamente en el calendario. Los tres modulos se sincronizan al cambiar de mes
+- **Calculo automatico**: introduce el valor de cada guardia y obtiene al instante el importe bruto, la retencion de IRPF y el neto a percibir
+- **Modo oscuro / modo claro**: cambia el tema con un solo clic, con deteccion automatica por hora y logos adaptados a cada modo
+- **Responsive**: adaptado para uso en escritorio, tablet y movil
+
+---
+
+## Como usar
+
+1. Abre la aplicacion en el navegador
+2. Selecciona el **mes** y el **ano**
+3. Marca los dias de guardia en el **calendario** de cada modulo
+4. Introduce el **valor economico** de cada tipo de guardia
+5. Consulta el **desglose economico** en la parte inferior
+
+---
+
+## Estructura del proyecto
+
 ```
 calculadora-guardias/
-├── index.html        # Aplicación completa (HTML + CSS + JS)
-└── imagenes/         # Logos de los centros en modo día y noche
-    ├── hsjd-dia.png
-    ├── hsjd-noche.png
-    ├── vithas-dia.png
-    └── vithas-noche.png
+├── index.html        ← aplicacion completa (archivo unico)
+├── icon.png          ← icono de la app
+├── imagenes/         ← logos de los centros en modo dia y noche
+│   ├── hsjd-dia.png
+│   ├── hsjd-noche.png
+│   ├── vithas-dia.png
+│   └── vithas-noche.png
+├── .gitignore
+├── LICENSE           ← MIT
+└── README.md         ← este archivo
 ```
 
 ---
 
-## 🛠️ Tecnología
+## Tecnologia
 
-- HTML5, CSS3 y JavaScript puro (sin frameworks ni dependencias externas)
-- Almacenamiento local (`localStorage`) para recordar la preferencia de tema entre sesiones
+- **HTML5 + CSS3 + JavaScript vanilla** en archivo unico
+- Tipografias: [Inter](https://fonts.google.com/specimen/Inter) y [Lora](https://fonts.google.com/specimen/Lora) (Google Fonts)
+- Almacenamiento local (`localStorage`) para preferencia de tema
+- Sin frameworks, sin build tools, sin backend
+- Compatible con Chrome, Firefox, Safari, Edge
 
 ---
 
-## 📄 Licencia
+## Licencia
 
-Uso personal. Desarrollado para gestión interna de guardias médicas.
+MIT — Uso interno hospitalario.
