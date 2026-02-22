@@ -73,6 +73,26 @@
   header p { color: var(--muted); margin-top: 0.5rem; font-size: 0.95rem; }
   header { position: relative; }
 
+  .back-home {
+    position: absolute;
+    top: 0.3rem;
+    left: 0.3rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'DM Mono', 'SF Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1.5px solid var(--border);
+    background: var(--surface2);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .back-home:hover { border-color: var(--accent); color: var(--accent); }
+
   /* Dark mode toggle */
   .theme-toggle {
     position: absolute;
@@ -609,6 +629,7 @@
 <body>
 
 <header>
+  <a class="back-home" href="https://jmacot.github.io/" title="Volver al inicio">← Inicio</a>
   <button class="theme-toggle" id="btn-theme" title="Cambiar tema"></button>
   <h1>Calculadora de Guardias</h1>
   <p>Selecciona los días en el calendario para calcular tu retribución mensual</p>
