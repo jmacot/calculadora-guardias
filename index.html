@@ -13,17 +13,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f4f6f9;
+    --bg: #f1f5f9;
     --surface: #ffffff;
-    --surface2: #f0f4f8;
-    --border: #dde3ec;
+    --surface2: #e8eef4;
+    --border: #e2e8f0;
     --accent: #1a7f4b;
     --accent2: #1b5fc4;
     --text: #1a2133;
     --muted: #6b7a99;
     --warn: #c0540a;
-    --shadow: 0 2px 12px rgba(26,33,51,0.07);
-    --shadow-hover: 0 6px 24px rgba(26,33,51,0.12);
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+    --shadow-hover: 0 20px 25px -5px rgb(0 0 0 / 0.1);
   }
   /* Dark mode */
   [data-theme="dark"] {
@@ -32,10 +33,11 @@
     --surface2: #283244;
     --border: #374151;
     --text: #f1f5f9;
-    --muted: #94a3b8;
+    --muted: #a8b8cc;
     --warn: #f59e0b;
-    --shadow: 0 2px 12px rgba(0,0,0,0.3);
-    --shadow-hover: 0 6px 24px rgba(0,0,0,0.4);
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.15);
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2);
+    --shadow-hover: 0 20px 25px -5px rgb(0 0 0 / 0.3);
   }
   [data-theme="dark"] .result-box.bruto { background: #1e3a5f; border-color: #2563eb; }
   [data-theme="dark"] .result-box.neto { background: #14352a; border-color: #22c55e; }
