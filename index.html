@@ -1399,6 +1399,26 @@ Object.entries(CONFIGS).forEach(([key, cfg]) => {
 const initialConfig = loadConfig();
 renderModules(initialConfig);
 saveConfig(initialConfig);
+
+// ─────────────────────────────────────────────
+//  URL PARAMS (for integration with planning-cot)
+// ─────────────────────────────────────────────
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has('tab')) return;
+  const tab = params.get('tab');
+  if (tab && CONFIGS[tab]) {
+    renderModules(tab);
+    saveConfig(tab);
+  }
+  const fills = [['gpf17','gpf-count17'],['gpf24','gpf-count24'],['hsjd17','hsjd-count17'],['hsjd24','hsjd-count24']];
+  for (const [p, id] of fills) {
+    const v = params.get(p);
+    if (v) { const el = document.getElementById(id); if (el) { el.value = parseInt(v, 10) || 0; } }
+  }
+  calcular();
+  if (window.history.replaceState) window.history.replaceState({}, '', window.location.pathname);
+})();
 </script>
 </body>
 </html>
