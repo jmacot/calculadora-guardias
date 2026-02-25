@@ -6,35 +6,34 @@
 <title>Calculadora de Guardias</title>
 <link rel="icon" type="image/png" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
-<meta name="theme-color" content="#1e3a5f">
+<meta name="theme-color" content="#1a3a5c">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Guardias">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f1f5f9;
-    --surface: #ffffff;
-    --surface2: #e8eef4;
-    --border: #e2e8f0;
-    --accent: #1a7f4b;
-    --accent2: #1b5fc4;
-    --text: #1a2133;
-    --muted: #6b7a99;
-    --warn: #c0540a;
+    --bg: #f1f5f9; --surface: #ffffff; --surface2: #e8eef4;
+    --border: #e2e8f0; --border-light: #e5e7eb;
+    --accent: #1a3a5c; --accent-light: #eef2f7; --accent-hover: #14304f;
+    --accent-green: #1a7f4b; --accent-blue: #1b5fc4;
+    --text: #222222; --text-muted: #555555; --text-light: #888888;
+    --green: #16a34a; --green-light: #dcfce7;
+    --amber: #c0540a; --amber-light: #fef3c7;
+    --red: #dc2626; --red-light: #fee2e2;
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
     --shadow-hover: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    --radius-sm: 8px; --radius: 16px; --radius-lg: 24px;
   }
   /* Dark mode */
   [data-theme="dark"] {
-    --bg: #111827;
-    --surface: #1f2937;
-    --surface2: #283244;
-    --border: #374151;
-    --text: #f1f5f9;
-    --muted: #a8b8cc;
-    --warn: #f59e0b;
+    --bg: #111827; --surface: #1f2937; --surface2: #283244;
+    --border: #374151; --border-light: #4b5563;
+    --text: #f1f5f9; --text-muted: #a8b8cc; --text-light: #64748b;
+    --accent: #93c5fd; --accent-hover: #bae0ff; --accent-light: #1e3a5f;
+    --amber: #f59e0b; --amber-light: #3b2a10;
+    --green-light: #14352a; --red-light: #3b1010;
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.15);
     --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2);
     --shadow-hover: 0 20px 25px -5px rgb(0 0 0 / 0.3);
@@ -57,49 +56,50 @@
   [data-theme="dark"] .tag { background: #1e3a5f; color: #93c5fd; }
   [data-theme="dark"] .tag.green { background: #14352a; color: #86efac; }
   [data-theme="dark"] .tag.amber { background: #3b2a10; color: #fbbf24; }
-  [data-theme="dark"] .config-pill.active { background: var(--accent2); border-color: var(--accent2); }
+  [data-theme="dark"] .config-pill.active { background: var(--accent-blue); border-color: var(--accent-blue); }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
     min-height: 100vh;
     padding: 2.5rem 1rem 5rem;
+    -webkit-tap-highlight-color: transparent;
   }
-  header { text-align: center; margin-bottom: 2.5rem; }
-  header h1 {
+  .app-header { text-align: center; margin-bottom: 28px; position: relative; }
+  .app-header h1 {
     font-family: 'Lora', serif;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    letter-spacing: -0.02em;
-    color: var(--text);
+    font-size: clamp(1.3rem, 3vw, 1.7rem);
+    font-weight: 700;
+    color: var(--accent);
   }
-  header p { color: var(--muted); margin-top: 0.5rem; font-size: 0.95rem; }
-  header { position: relative; }
+  .app-header p { font-size: 13px; color: var(--text-muted); margin-top: 0.5rem; }
 
   .back-home {
-    position: absolute;
-    top: 0.3rem;
-    left: 0.3rem;
+    position: fixed;
+    top: 10px;
+    left: 10px;
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    font-family: 'DM Mono', 'SF Mono', monospace;
+    font-family: 'SF Mono', 'Consolas', monospace;
     font-size: 11px;
     letter-spacing: 0.05em;
-    color: var(--muted);
+    color: var(--text-muted);
     text-decoration: none;
     padding: 6px 12px;
     border-radius: 999px;
     border: 1.5px solid var(--border);
-    background: var(--surface2);
+    background: var(--surface);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
     transition: border-color 0.2s, color 0.2s;
+    z-index: 100;
   }
   .back-home:hover { border-color: var(--accent); color: var(--accent); }
   @media (max-width: 600px) {
-    header { padding-top: 2.8rem; }
-    .back-home { top: 0.5rem; left: 0.5rem; padding: 5px 10px; font-size: 10px; }
-    .theme-toggle { width: 32px; height: 32px; font-size: 1rem; top: 0.5rem; right: 0.5rem; }
+    .back-home { padding: 4px 8px; font-size: 10px; top: 6px; left: 6px; }
+    .theme-toggle { width: 36px; height: 36px; font-size: 1.1rem; }
   }
 
   /* Dark mode toggle */
@@ -120,7 +120,7 @@
     box-shadow: var(--shadow);
     transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .theme-toggle:hover { border-color: var(--accent2); box-shadow: var(--shadow-hover); }
+  .theme-toggle:hover { border-color: var(--accent-blue); box-shadow: var(--shadow-hover); }
 
   /* Config pills */
   .config-pills {
@@ -138,14 +138,14 @@
     border-radius: 20px;
     border: 1.5px solid var(--border);
     background: transparent;
-    color: var(--muted);
+    color: var(--text-muted);
     cursor: pointer;
     transition: all 0.2s;
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
-  .config-pill:hover { border-color: var(--accent2); color: var(--accent2); }
-  .config-pill.active { border-color: var(--accent2); color: #fff; background: var(--accent2); }
+  .config-pill:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+  .config-pill.active { border-color: var(--accent-blue); color: #fff; background: var(--accent-blue); }
 
   /* Reset link under calendar */
   .cal-reset-link {
@@ -154,7 +154,7 @@
     margin-top: 0.6rem;
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--muted);
+    color: var(--text-muted);
     cursor: pointer;
     background: var(--surface);
     border: 1.5px solid var(--border);
@@ -204,12 +204,12 @@
     padding: 0.18rem 0.55rem;
     border-radius: 20px;
     background: #dbeafe;
-    color: var(--accent2);
+    color: var(--accent-blue);
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
-  .tag.green { background: #dcfce7; color: var(--accent); }
-  .tag.amber { background: #fef3c7; color: var(--warn); }
+  .tag.green { background: var(--green-light); color: var(--accent-green); }
+  .tag.amber { background: #fef3c7; color: var(--amber); }
   /* LAYOUT CARD: calendario + inputs lado a lado */
   .card-body {
     display: grid;
@@ -339,7 +339,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--muted);
+    color: var(--text-muted);
     white-space: nowrap;
   }
   .rate-item {
@@ -347,7 +347,7 @@
     align-items: center;
     gap: 0.4rem;
     font-size: 0.78rem;
-    color: var(--muted);
+    color: var(--text-muted);
   }
   .rate-item input {
     width: 68px;
@@ -364,12 +364,12 @@
     transition: border-color 0.2s;
   }
   .rate-item input:focus {
-    border-color: var(--accent2);
+    border-color: var(--accent-blue);
     box-shadow: 0 0 0 2px rgba(27,95,196,0.08);
   }
   .rate-unit {
     font-size: 0.75rem;
-    color: var(--muted);
+    color: var(--text-muted);
     font-weight: 400;
   }
 
@@ -412,7 +412,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--muted);
+    color: var(--text-muted);
     text-align: center;
     padding: 4px 0;
   }
@@ -492,7 +492,7 @@
     align-items: center;
     gap: 0.3rem;
     font-size: 0.72rem;
-    color: var(--muted);
+    color: var(--text-muted);
   }
   .cal-legend-dot {
     width: 10px; height: 10px;
@@ -505,7 +505,7 @@
   .input-group label {
     display: block;
     font-size: 0.75rem;
-    color: var(--muted);
+    color: var(--text-muted);
     margin-bottom: 0.4rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -525,11 +525,11 @@
     transition: border-color 0.2s, box-shadow 0.2s;
   }
   .input-group input:focus {
-    border-color: var(--accent2);
+    border-color: var(--accent-blue);
     box-shadow: 0 0 0 3px rgba(27,95,196,0.1);
     background: #fff;
   }
-  .input-group input[type=number]::-webkit-inner-spin-button { opacity: 0.4; }
+  .input-group input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
   .irpf-row {
     margin-top: 0.5rem;
@@ -540,7 +540,7 @@
   }
   .irpf-row label {
     font-size: 0.75rem;
-    color: var(--muted);
+    color: var(--text-muted);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.07em;
@@ -552,7 +552,7 @@
     border: 1.5px solid #fcd9b0;
     border-radius: 10px;
     padding: 0.5rem 0.7rem;
-    color: var(--warn);
+    color: var(--amber);
     font-size: 1rem;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
@@ -560,8 +560,8 @@
     text-align: center;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .irpf-row input:focus { border-color: var(--warn); box-shadow: 0 0 0 3px rgba(192,84,10,0.1); }
-  .irpf-hint { font-size: 0.78rem; color: var(--muted); }
+  .irpf-row input:focus { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(192,84,10,0.1); }
+  .irpf-hint { font-size: 0.78rem; color: var(--text-muted); }
 
   /* RESULTADOS */
   .results-grid {
@@ -582,7 +582,7 @@
     font-size: 0.68rem;
     text-transform: uppercase;
     letter-spacing: 0.09em;
-    color: var(--muted);
+    color: var(--text-muted);
     font-weight: 600;
     margin-bottom: 0.45rem;
   }
@@ -593,11 +593,11 @@
     color: var(--text);
   }
   .result-box.bruto { background: #eff6ff; border-color: #bfdbfe; }
-  .result-box.bruto .value { color: var(--accent2); }
+  .result-box.bruto .value { color: var(--accent-blue); }
   .result-box.neto { background: #f0fdf4; border-color: #bbf7d0; }
-  .result-box.neto .value { color: var(--accent); }
+  .result-box.neto .value { color: var(--accent-green); }
   .result-box.irpf-box { background: #fff7ed; border-color: #fcd9b0; }
-  .result-box.irpf-box .value { color: var(--warn); }
+  .result-box.irpf-box .value { color: var(--amber); }
 
   /* TOTAL FINAL */
   .final-card {
@@ -665,19 +665,33 @@
   input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
   input[type=number] { -moz-appearance: textfield; }
 
-  .app-footer { text-align: center; padding: 16px 0; margin-top: 1rem; }
-  .app-footer span { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.03em; }
+  .app-footer { text-align: center; flex-shrink: 0; padding: 8px 0; margin-top: 1rem; }
+  .app-footer span { font-size: 0.7rem; color: var(--text-light); letter-spacing: 0.03em; }
+
+  .toast-banner {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #7c3aed; color: white;
+    padding: 12px 28px; border-radius: 10px;
+    font-size: 0.95rem; font-weight: 600;
+    font-family: 'Inter', Arial, sans-serif;
+    box-shadow: 0 8px 32px rgba(124,58,237,0.30);
+    z-index: 9999; opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s;
+    pointer-events: none; display: flex; align-items: center; gap: 8px;
+  }
+  .toast-banner.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 
-<header>
-  <a class="back-home" href="https://jmacot.github.io/" title="Volver al inicio">← Inicio</a>
+<a class="back-home" href="https://jmacot.github.io/" title="Volver al inicio">← Inicio</a>
+<div class="app-header">
   <button class="theme-toggle" id="btn-theme" title="Cambiar tema"></button>
   <h1>Calculadora de Guardias</h1>
   <p>Selecciona los dias en el calendario para calcular tu retribucion mensual</p>
   <div class="config-pills" id="config-pills"></div>
-</header>
+</div>
 
 <div class="container">
   <div id="modules-container"></div>
@@ -685,8 +699,20 @@
 </div>
 
 <div class="app-footer"><span>COT — Calculadora de Guardias v2.0</span></div>
+<div id="toast" class="toast-banner"></div>
 
 <script>
+// ─────────────────────────────────────────────
+//  TOAST
+// ─────────────────────────────────────────────
+function mostrarToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
 // ─────────────────────────────────────────────
 //  FORMATO
 // ─────────────────────────────────────────────
