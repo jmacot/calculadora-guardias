@@ -175,6 +175,21 @@
     transform: scale(1.08);
   }
   .container { max-width: 900px; margin: 0 auto; display: grid; gap: 1.4rem; }
+  @media (min-width: 1024px) {
+    body { padding-left: 2rem; padding-right: 2rem; }
+    .container { max-width: 1380px; }
+    #modules-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.4rem;
+    }
+    #modules-container .card {
+      min-width: 0;
+    }
+    #modules-container .card-body {
+      grid-template-columns: 1fr;
+    }
+  }
 
   /* CARD */
   .card {
