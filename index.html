@@ -177,18 +177,19 @@
   .container { max-width: 900px; margin: 0 auto; display: grid; gap: 1.4rem; }
   @media (min-width: 1024px) {
     body { padding-left: 2rem; padding-right: 2rem; }
-    .container { max-width: 1380px; }
-    #modules-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.4rem;
-    }
+    .container { max-width: 1380px; grid-template-columns: 1fr 1fr; }
+    #modules-container { display: contents; }
     #modules-container .card {
       min-width: 0;
+      display: grid;
+      grid-template-rows: subgrid;
+      grid-row: span 4;
     }
     #modules-container .card-body {
       grid-template-columns: 1fr;
     }
+    .final-card { grid-row: span 4; }
+    .final-card.full-width { grid-column: 1 / -1; grid-row: auto; }
   }
 
   /* CARD */
@@ -1196,6 +1197,8 @@ function renderModules(configKey) {
 
   // Generar final card
   renderFinalCard();
+  const finalEl = document.getElementById('final-card');
+  finalEl.classList.toggle('full-width', cfg.modules.length % 2 === 0);
 
   // Restaurar tarifas del usuario desde localStorage
   restoreUserRates(configKey);
