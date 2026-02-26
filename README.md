@@ -36,6 +36,8 @@ No requiere instalacion. Funciona en cualquier navegador, incluyendo movil y tab
 - **Calendario interactivo**: selecciona los dias de guardia directamente en el calendario. Todos los modulos se sincronizan al cambiar de mes
 - **Calculo automatico**: obtiene al instante el importe bruto, la retencion de IRPF y el neto a percibir
 - **Festivos nacionales y autonomicos**: detecta automaticamente festivos de todas las CCAA
+- **Layout desktop 2 columnas**: los modulos se muestran lado a lado en pantallas grandes, con alineacion subgrid para que titulos, tarifas, calendarios y resultados queden a la misma altura
+- **Integracion con Planning COT**: acepta parametros URL para pre-rellenar guardias desde el Analizador de Planning
 - **Modo oscuro / modo claro**: cambia el tema con un solo clic, con deteccion automatica por hora y logos adaptados a cada modo
 - **Persistencia**: guarda la configuracion seleccionada y las tarifas personalizadas en localStorage
 - **Responsive**: adaptado para uso en escritorio, tablet y movil
