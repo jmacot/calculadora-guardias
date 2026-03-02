@@ -75,7 +75,7 @@
     font-weight: 700;
     color: var(--accent);
   }
-  .app-header p { font-size: 13px; color: var(--text-muted); margin-top: 0.5rem; }
+  .app-header p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
 
   .back-home {
     position: fixed;
@@ -105,23 +105,13 @@
 
   /* Dark mode toggle */
   .theme-toggle {
-    position: absolute;
-    top: 0.3rem;
-    right: 0.3rem;
-    background: var(--surface2);
-    border: 1.5px solid var(--border);
-    border-radius: 50%;
-    width: 42px;
-    height: 42px;
-    font-size: 1.3rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--shadow);
-    transition: border-color 0.2s, box-shadow 0.2s;
+    position: absolute; top: 0; right: 0;
+    background: var(--surface2); border: 1.5px solid var(--border);
+    border-radius: 50%; width: 38px; height: 38px; font-size: 1.2rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow-sm); transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .theme-toggle:hover { border-color: var(--accent-blue); box-shadow: var(--shadow-hover); }
+  .theme-toggle:hover { border-color: var(--accent); box-shadow: var(--shadow); }
 
   /* Config pills */
   .config-pills {
