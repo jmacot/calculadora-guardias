@@ -1,6 +1,6 @@
 # 🏥 Calculadora de Guardias Medicas
 
-Herramienta web para calcular la retribucion economica de las guardias medicas. Permite registrar guardias de presencia fisica y localizadas, visualizarlas en un calendario mensual y obtener automaticamente el importe bruto, IRPF y neto.
+Calcula lo que vas a cobrar por tus guardias medicas. Selecciona los dias en el calendario y consulta el bruto, neto e IRPF para cada centro hospitalario.
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![Configuraciones](https://img.shields.io/badge/configuraciones-5-1a3a5c)
