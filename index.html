@@ -7,10 +7,20 @@
 <title>Calculadora de Guardias</title>
 <link rel="icon" type="image/png" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
-<meta name="theme-color" content="#1a3a5c">
+<meta name="theme-color" id="meta-theme" content="#1a3a5c">
+<meta name="description" content="Calcula lo que vas a cobrar por tus guardias. Selecciona los dias en el calendario y consulta el bruto, neto e IRPF." />
+<!-- Open Graph -->
+<meta property="og:title" content="Calculadora de Guardias · COT" />
+<meta property="og:description" content="Calcula lo que vas a cobrar por tus guardias. Selecciona los dias en el calendario y consulta el bruto, neto e IRPF." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://jmacot.github.io/calculadora-guardias/" />
+<meta property="og:image" content="https://jmacot.github.io/calculadora-guardias/icon.png" />
+<meta name="twitter:card" content="summary" />
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Guardias">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -728,13 +738,20 @@
     pointer-events: none; display: flex; align-items: center; gap: 8px;
   }
   .toast-banner.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 </style>
 </head>
 <body>
 
 <a class="back-home" href="https://jmacot.github.io/" title="Volver al inicio">← Inicio</a>
 <div class="app-header">
-  <button class="theme-toggle" id="btn-theme" title="Cambiar tema"></button>
+  <button class="theme-toggle" id="btn-theme" title="Cambiar tema" aria-label="Cambiar a modo oscuro"></button>
   <h1>Calculadora de Guardias</h1>
   <p>Selecciona los dias en el calendario para calcular tu retribucion mensual</p>
   <div class="config-pills" id="config-pills"></div>
@@ -1402,12 +1419,17 @@ function loadConfig() {
 const btnTheme = document.getElementById('btn-theme');
 
 function applyTheme(dark) {
+  var metaTheme = document.getElementById('meta-theme');
   if (dark) {
     document.documentElement.setAttribute('data-theme', 'dark');
     btnTheme.textContent = '☀️';
+    btnTheme.setAttribute('aria-label', 'Cambiar a modo claro');
+    if (metaTheme) metaTheme.setAttribute('content', '#0a1628');
   } else {
     document.documentElement.removeAttribute('data-theme');
     btnTheme.textContent = '🌙';
+    btnTheme.setAttribute('aria-label', 'Cambiar a modo oscuro');
+    if (metaTheme) metaTheme.setAttribute('content', '#1a3a5c');
   }
   // Cambiar logos dia/noche
   document.querySelectorAll('.mod-logo').forEach(img => {
