@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<script>(function(){var a=localStorage.getItem('cot_auth');if(!a||(Date.now()-parseInt(a))>86400000){localStorage.removeItem('cot_auth');window.location.replace('https://jmacot.github.io/');}})();</script>
+<script>(function(){if(location.hostname==='localhost'||location.hostname==='127.0.0.1')return;var a=localStorage.getItem('cot_auth');if(!a||(Date.now()-parseInt(a))>86400000){localStorage.removeItem('cot_auth');window.location.replace('https://jmacot.github.io/');}})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calculadora de Guardias</title>
@@ -106,8 +106,9 @@
   }
   .app-header p { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 4px; position: relative; }
   [data-theme="dark"] .app-header {
-    background: linear-gradient(135deg, #0a1628 0%, #111827 50%, #1a2744 100%);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    background: linear-gradient(135deg, #152238 0%, #1c2f4a 50%, #213656 100%);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
   }
   @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(16px); }
